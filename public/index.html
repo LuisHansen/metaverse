@@ -12,6 +12,7 @@
         <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
     <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.2.0/dist/components/sphere-collider.js"></script>
     <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r134/examples/js/deprecated/Geometry.js"></script>
     <!--<script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
     <script src="/js/spawn-in-circle.component.js"></script>
@@ -24,7 +25,7 @@
       adapter: easyrtc;
       audio: true;
     "
-      physics="debug: true"
+      physics="debug: false"
      >
       <a-assets>
 
@@ -57,7 +58,7 @@
       </a-assets>
 
       <a-entity id="player"
-        dynamic-body
+        static-body
         networked="template:#avatar-template;attachTemplateToLocal:false;"
         camera
         position="0 3 0"
