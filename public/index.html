@@ -38,18 +38,20 @@
 
         <!-- Avatar -->
         <template id="avatar-template">
-          <a-entity class="avatar" networked-audio-source>
-            <a-entity
-              gltf-model="#base-head"
-              scale="0.5 0.5 0.5"
-              position="0 -0.5 0"
-              character-face
-            ></a-entity>
+          <a-entity class="avatar" networked-audio-source scale="0.5 0.5 0.5">
             <a-entity
               gltf-model="#base-torso"
               scale="0.5 0.5 0.5"
               position="0 -0.5 0"
               character-torso
+              static-body
+            ></a-entity>
+            <a-entity
+              gltf-model="#base-head"
+              scale="0.5 0.5 0.5"
+              position="0 -0.5 0"
+              character-face
+              static-body
             ></a-entity>
           </a-entity>
         </template>
@@ -57,25 +59,26 @@
         <!-- /Templates -->
       </a-assets>
 
-      <a-entity id="player"
-        kinematic-body
-        networked="template:#avatar-template;attachTemplateToLocal:false;"
-        camera
-        position="0 3 0"
-        spawn-in-circle="radius:3"
-        wasd-controls look-controls
+      <a-entity id="rig" movement-controls kinematic-body wasd-controls look-controls>
+        <a-entity id="camera" camera position="0 1.6 0" look-controls></a-entity>
+        <a-entity id="player"
+          networked="template:#avatar-template;attachTemplateToLocal:false;"
+          position="0 3 0"
+          scale="0.5 0.5 0.5"
+          spawn-in-circle="radius:3"
         >
-        <a-sphere class="head"
-          visible="false"
-          random-color
-        ></a-sphere>
+          <a-box class="head"
+            visible="false"
+            random-color
+          ></a-sphere>
+        </a-entity>
       </a-entity>
 
-           <a-entity light="color: #ccccff; intensity: 1; type: ambient;" visible=""></a-entity>
+      <a-entity light="color: #ccccff; intensity: 1; type: ambient;" visible=""></a-entity>
       <a-entity light="color: #ffaaff; intensity: 1.5" position="5 5 5"></a-entity>
       <a-box static-body position="0 0 -3" color="#4CC3D9" width="8" height="5" depth="0.5"></a-box>
       <a-box dynamic-body position="0 1 -2" color="#4CC3D9" width="1" height="1" depth="1"></a-box>
-       <a-box static-body position="0 0 0" color="#4CAF50" width="8" height="5" depth="0.5"></a-box>
+       <a-box static-body position="0 0 0" color="#4CAF50" width="10" height="0.2" depth="10"></a-box>
     </a-scene>
 
     <div class="actions">
