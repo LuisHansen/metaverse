@@ -8,7 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
     <script src="https://naf-examples.glitch.me/easyrtc/easyrtc.js"></script>
     <script src="https://naf-examples.glitch.me/dist/networked-aframe.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v$npm_package_version/dist/aframe-physics-system.min.js"></script>
     <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
     <!--<script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
@@ -21,25 +21,31 @@
       debug: true;
       adapter: easyrtc;
       audio: true;
-    ">
+    "
+      physics="debug: true"
+     >
       <a-assets>
 
         <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous">
         <img id="sky" src="https://i.imgur.com/WqlqEkq.jpg" crossorigin="anonymous" />
         <a-asset-item id="base-head" src="https://cdn.glitch.global/177e9445-05ce-4f8b-b58b-2369c2875b86/base_avatar_head.gltf?v=1643234542888"></a-asset-item>
         <a-asset-item id="base-torso" src="https://cdn.glitch.global/177e9445-05ce-4f8b-b58b-2369c2875b86/base_avatar_torso.gltf?v=1643234904603"></a-asset-item>
+        <a-asset-item id="room" src="https://cdn.glitch.global/150333cf-97ea-49d4-af51-b1d8de1e43f7/big_room.gltf?v=1643245662490"></a-asset-item>
         <!-- Templates -->
 
         <!-- Avatar -->
         <template id="avatar-template">
-          <a-entity class="avatar" networked-audio-source>
+          <a-entity class="avatar" networked-audio-source dynamic-body>
             <a-entity
               gltf-model="#base-head"
+              scale="0.5 0.5 0.5"
+              position="0 -0.5 0"
               character-face
             ></a-entity>
             <a-entity
               gltf-model="#base-torso"
-              position="0 0 0"
+              scale="0.5 0.5 0.5"
+              position="0 -0.5 0"
               character-torso
             ></a-entity>
           </a-entity>
@@ -51,7 +57,7 @@
       <a-entity id="player"
         networked="template:#avatar-template;attachTemplateToLocal:false;"
         camera
-        position="0 1.6 0"
+        position="0 3 0"
         spawn-in-circle="radius:3"
         wasd-controls look-controls
         >
@@ -67,7 +73,12 @@
 
       <a-entity light="color: #ccccff; intensity: 1; type: ambient;" visible=""></a-entity>
       <a-entity light="color: #ffaaff; intensity: 1.5" position="5 5 5"></a-entity>
-
+      <a-entity
+        gltf-model="#room"
+        position="0 -0.0.1 0"
+        character-face
+                static-body
+      ></a-entity>
       <a-sky src="#sky" rotation="0 -90 0"></a-sky>
       <a-entity id="particles" particle-system="preset: snow"></a-entity>
     </a-scene>
