@@ -34,58 +34,37 @@
         <!-- Templates -->
 
         <!-- Avatar -->
-        <template id="avatar-head-template">
+        <template id="avatar-template">
           <a-entity class="avatar" networked-audio-source>
             <a-entity
               gltf-model="#base-head"
-              position="0 -0.5 0"
+              position="0 -0.10 0"
               rotation="0 180 0"
               scale="0.2 0.2 0.2"
               character-face
             ></a-entity>
-          </a-entity>
-        </template>
-        
-        <template id="avatar-body-template">
-          <a-entity class="avatar">
             <a-entity
               gltf-model="#base-torso"
-              position="0 -0.5 0"
-                rotation="0 180 0"
+              position="0 -0.1 0"
+              rotation="0 180 0"
               scale="0.2 0.2 0.2"
               character-torso
             ></a-entity>
           </a-entity>
         </template>
         
-        <template id="player-template">
-          <a-box class="head"
-              visible="false"
-              random-color
-            ></a-box>
-        </template>
         <!-- /Templates -->
       </a-assets>
 
       
         <a-entity id="player"
           wasd-controls
-          networked="template:#player-template;attachTemplateToLocal:false;"
+          look-controls
+          camera
+          networked="template:#avatar-template;attachTemplateToLocal:false;"
           position="0 0.9 0"
           spawn-in-circle="radius:3"
         >
-          <a-entity id="player-head"
-            camera
-            look-controls
-            networked="template:#avatar-head-template;"
-            position="0 0.9 0"
-            spawn-in-circle="radius:3"
-          ></a-entity>
-          <a-entity id="player-body"
-            networked="template:#avatar-body-template"
-            position="0 0.9 0"
-            spawn-in-circle="radius:3"
-          ></a-entity>
         </a-entity>
 
 
