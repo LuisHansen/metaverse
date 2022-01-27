@@ -125,15 +125,35 @@
         },
 
         init: function () {
-          this.head = this.el.querySelector(".headModel");
-          console.log('head', this.el.querySelector(".head-tracked"));
-          // this.head.addEventListener("model-loaded", e => {
-          //   let tree3D = el.getObject3D('mesh');
-          //   if (!tree3D){
-          //     return;
-          //   }
-          //   console.log('opa');
-          // });
+          this.el.addEventListener("model-loaded", e => {
+            console.log('opa');
+            this.head = this.el.querySelector(".headModel");
+            let tree3D = this.head.getObject3D('mesh');
+            if (!tree3D){
+              return;
+            }
+            console.log('mesh', tree3D);
+            tree3D.traverse(function(node){
+              if (node.isMesh && node.material.name === "texture") {
+                node.material.map =  new THREE.TextureLoader()
+                  .load("https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg");
+                node.material.map.repeat.x = 1;
+                node.material.map.center.x = 1;
+                node.material.map.flipY = false;
+                //node.material.color.set('#E7C695');
+                node.material.roughness = 1
+              }
+              if (node.isMesh && node.material.name === "helmet") {
+                node.material.color.set('#BEBEBE');
+                // node.material.color.set('#F44336');
+                node.material.roughness = 1
+              }
+              if (node.isMesh && node.material.name === "torso") {
+                node.material.color.set('#FCD19C');
+                node.material.roughness = 1
+              }
+            });
+          });
           
           this.nametag = this.el.querySelector(".nametag");
           this.ownedByLocalUser = this.el.id === "local-avatar";
@@ -205,19 +225,15 @@
         <!--      a few spheres make a head + eyes + pupils    -->
         <template id="head-template">
           <a-entity class="avatar" player-info>
-            
-            <a-entity
-              class="head-tracked"
+
+            <a-gltf-model
+              class="headModel"
               scale="0.2 0.2 0.2"
               position="0 -0.5 0"
-            >
-              <a-gltf-model
-                class="headModel"
-                rotation="0 180 0"
-                src="#head-model"
-              ></a-gltf-model>
-            </a-entity>
-            
+              rotation="0 180 0"
+              src="#head-model"
+            ></a-gltf-model>
+
             <a-sphere class="head" scale="0.2 0.22 0.2"></a-sphere>
             <a-text
               class="nametag"
