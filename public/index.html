@@ -79,7 +79,7 @@
           // <a-entity hand-controls="hand:right" networked="template:#right-hand-template;attachTemplateToLocal:true;"></a-entity>
           ['left', 'right'].forEach(side => {
             const el = document.createElement('a-entity')
-            el.setAttribute('hand-tracked-controls', {hand: side});
+            el.setAttribute('hand-controls', {hand: side});
             el.setAttribute('networked', {template: `#${side}-hand-template`, attachTemplateToLocal: false});
             el.setAttribute('id', `my-tracked-${side}-hand`);
             // note that the ID will be applied to THIS client's hands,
@@ -144,7 +144,9 @@
         <!-- models are from a-frame repo; see bottom of page for downloads:  https://aframe.io/docs/1.2.0/components/hand-controls.html -->
          <a-asset-item id="left-hand-model" src="https://cdn.glitch.global/efea197a-513b-4526-a9b1-85062ae7f6e0/leftHandHigh.glb?v=1643317888699"></a-asset-item>
          <a-asset-item id="right-hand-model" src="https://cdn.glitch.global/efea197a-513b-4526-a9b1-85062ae7f6e0/rightHandHigh.glb?v=1643317891985"></a-asset-item>
-
+         <a-asset-item id="head-model" src="https://cdn.glitch.global/150333cf-97ea-49d4-af51-b1d8de1e43f7/base_avatar_head.gltf?v=1643243485988"></a-asset-item>
+         <a-asset-item id="torso-model" src="https://cdn.glitch.global/150333cf-97ea-49d4-af51-b1d8de1e43f7/base_avatar_torso.gltf?v=1643243481656"></a-asset-item>
+        
         <!--
           NAF Templates
         -->
@@ -157,6 +159,9 @@
         <!--      a few spheres make a head + eyes + pupils    -->
         <template id="head-template">
           <a-entity class="avatar" player-info>
+            <a-entity class="head-tracked" scale="0.2 0.2 0.2" position="0 -1 0">
+              <a-gltf-model class="headModel" rotation="0 180 0" src="#head-model"></a-gltf-model>
+            </a-entity>
             <a-sphere class="head" scale="0.2 0.22 0.2" ></a-sphere>
             <a-entity class="face" position="0 0.05 0" >
               <a-sphere class="eye" color="white" position="0.06 0.05 -0.16" scale="0.04 0.04 0.04" >
