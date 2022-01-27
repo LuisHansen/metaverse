@@ -161,11 +161,16 @@
           color: {
             type: "string",
             default:
-              []
+              "#" +
+              new THREE.Color(
+                Math.random(),
+                Math.random(),
+                Math.random()
+              ).getHexString(),
           },
           texture: {
             type: "string",
-            default:
+            default: [],
           }
         },
 
