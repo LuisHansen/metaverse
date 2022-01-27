@@ -125,6 +125,7 @@
         },
 
         init: function () {
+          console.log('outside', this);
           this.el.addEventListener("model-loaded", e => {
             console.log('opa');
             this.head = this.el.querySelector(".headModel");
@@ -133,7 +134,7 @@
               return;
             }
             console.log('mesh', tree3D);
-            tree3D.traverse(function(node){
+            tree3D.traverse(node => {
               if (node.isMesh && node.material.name === "texture") {
                 node.material.map =  new THREE.TextureLoader()
                   .load("https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg");
@@ -144,12 +145,13 @@
                 node.material.roughness = 1
               }
               if (node.isMesh && node.material.name === "helmet") {
-                node.material.color.set('#BEBEBE');
+                node.material.color.set('#FCD19C');
                 // node.material.color.set('#F44336');
                 node.material.roughness = 1
               }
               if (node.isMesh && node.material.name === "torso") {
-                node.material.color.set('#FCD19C');
+                console.log('inside', this);
+                node.material.color.set(this.data.color);
                 node.material.roughness = 1
               }
             });
