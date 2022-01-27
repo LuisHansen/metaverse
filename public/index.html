@@ -126,7 +126,15 @@
 
         init: function () {
           this.head = this.el.querySelector(".headModel");
-          console.log("head", this.head?.material);
+          console.log('head', this.el.querySelector(".head-tracked"));
+          // this.head.addEventListener("model-loaded", e => {
+          //   let tree3D = el.getObject3D('mesh');
+          //   if (!tree3D){
+          //     return;
+          //   }
+          //   console.log('opa');
+          // });
+          
           this.nametag = this.el.querySelector(".nametag");
           this.ownedByLocalUser = this.el.id === "local-avatar";
           if (this.ownedByLocalUser) {
