@@ -38,17 +38,15 @@
 
         <!-- Avatar -->
         <template id="avatar-template">
-          <a-entity class="avatar" networked-audio-source scale="0.5 0.5 0.5">
+          <a-entity class="avatar" networked-audio-source>
             <a-entity
               gltf-model="#base-torso"
-              scale="0.5 0.5 0.5"
               position="0 -0.5 0"
               character-torso
               static-body
             ></a-entity>
             <a-entity
               gltf-model="#base-head"
-              scale="0.5 0.5 0.5"
               position="0 -0.5 0"
               character-face
               static-body
@@ -59,12 +57,19 @@
         <!-- /Templates -->
       </a-assets>
 
-      <a-entity id="rig" movement-controls kinematic-body wasd-controls look-controls>
+      <a-entity id="rig"
+        movement-controls
+        body="type: kinematic;
+              mass: 5; shape: box;
+              halfExtents: 0.15 0.18 0.04;
+              offset: 0.4 0 0;"
+        wasd-controls
+        look-controls>
         <a-entity id="camera" camera position="0 1.6 0" look-controls></a-entity>
         <a-entity id="player"
           networked="template:#avatar-template;attachTemplateToLocal:false;"
-          position="0 3 0"
-          scale="0.5 0.5 0.5"
+          position="0 0 0"
+          scale="0.1 0.1 0.1"
           spawn-in-circle="radius:3"
         >
           <a-box class="head"
