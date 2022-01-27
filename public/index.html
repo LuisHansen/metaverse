@@ -8,9 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
     <script src="/easyrtc/easyrtc.js"></script>
     <script src="/dist/networked-aframe.js"></script>
-    <script src="/aframe-extras.js"></script>
-    <script src="/js/aframe-physics-system.js"></script>
-        <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+    <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
     <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.2.0/dist/components/sphere-collider.js"></script>
     <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r134/examples/js/deprecated/Geometry.js"></script>
@@ -26,7 +24,6 @@
       adapter: easyrtc;
       audio: true;
     "
-      physics="debug: true"
      >
       <a-assets>
 
@@ -44,28 +41,23 @@
               position="0 0 0"
               scale="0.2 0.2 0.2"
               character-torso
-              static-body
             ></a-entity>
             <a-entity
               gltf-model="#base-head"
               position="0 0 0"
               scale="0.2 0.2 0.2"
               character-face
-              static-body
             ></a-entity>
           </a-entity>
         </template>
 
         <!-- /Templates -->
       </a-assets>
-
-      <a-entity id="rig"
-        movement-controls
-        kinematic-body
-        wasd-controls
-        look-controls>
-        <a-entity id="camera" camera position="0 1 0"></a-entity>
+      
         <a-entity id="player"
+          camera
+          wasd-controls
+          look-controls
           networked="template:#avatar-template;attachTemplateToLocal:false;"
           position="0 0.6 0"
           spawn-in-circle="radius:3"
@@ -75,7 +67,7 @@
             random-color
           ></a-sphere>
         </a-entity>
-      </a-entity>
+
 
       <a-entity light="color: #ccccff; intensity: 1; type: ambient;" visible=""></a-entity>
       <a-entity light="color: #ffaaff; intensity: 1.5" position="5 5 5"></a-entity>
