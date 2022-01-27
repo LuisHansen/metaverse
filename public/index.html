@@ -161,13 +161,12 @@
           color: {
             type: "string",
             default:
-              "#" +
-              new THREE.Color(
-                Math.random(),
-                Math.random(),
-                Math.random()
-              ).getHexString(),
+              []
           },
+          texture: {
+            type: "string",
+            default:
+          }
         },
 
         init: function () {
@@ -343,7 +342,7 @@
       <a-entity
         id="camera-rig"
         tracked-vr-hands
-        movement-controls="fly:true;"
+        movement-controls="fly:false;"
         spawn-in-circle="radius:3"
         networked="template:#camera-rig-template;"
       >
@@ -362,6 +361,15 @@
              active camera appended to it--both networked, we ensure all player movement is kept in sync.
         -->
         </a-entity>
+        
+        <a-entity
+          id="local-avatar-body"
+          camera
+          position="0 1.6 0"
+          look-controls
+          networked="template:#body-template;"
+          visible="false"
+        ></a-entity>
 
         <!-- Q: How about adding tracked hands here, like this below?
              A: if you add hands directly here, like this, it will work! But camera-rigs without any tracked controllers (e.g., non-vr desktop users and phone users)
