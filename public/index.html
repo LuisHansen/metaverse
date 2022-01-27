@@ -23,14 +23,14 @@
       audio: true;
     ">
       <a-assets>
-
+        <a-asset-item id="base-head" src="https://cdn.glitch.global/177e9445-05ce-4f8b-b58b-2369c2875b86/base_avatar_head.gltf?v=1643234542888"></a-asset-item>
+        <a-asset-item id="base-torso" src="https://cdn.glitch.global/177e9445-05ce-4f8b-b58b-2369c2875b86/base_avatar_torso.gltf?v=1643234904603"></a-asset-item>
         <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous">
         <img id="sky" src="https://i.imgur.com/WqlqEkq.jpg" crossorigin="anonymous" />
-
         <!-- Templates -->
 
         <!-- Avatar -->
-        <template id="avatar-template">
+ <template id="avatar-template">
           <a-entity class="avatar" networked-audio-source>
             <a-sphere class="head"
               scale="0.45 0.5 0.4"
@@ -63,7 +63,6 @@
             </a-entity>
           </a-entity>
         </template>
-
         <!-- /Templates -->
       </a-assets>
 
@@ -79,7 +78,6 @@
           random-color
         ></a-sphere>
       </a-entity>
-
       <a-entity position="0 0 0"
         geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0"
         material="src: #grid; repeat: 10000 10000; transparent: true; metalness:0.6; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity>
@@ -88,6 +86,7 @@
       <a-entity light="color: #ffaaff; intensity: 1.5" position="5 5 5"></a-entity>
 
       <a-sky src="#sky" rotation="0 -90 0"></a-sky>
+      <a-entity id="particles" particle-system="preset: snow"></a-entity>
     </a-scene>
 
     <!-- GitHub Corner. -->
@@ -143,6 +142,52 @@
           micBtnEle.textContent = micEnabled ? 'Mute Mic' : 'Unmute Mic';
         });
       }
+      
+          AFRAME.registerComponent('character-face', {
+        init: function(){
+            let el = this.el;
+            el.addEventListener("model-loaded", e =>{
+                let tree3D = el.getObject3D('mesh');
+                if (!tree3D){return;}                   
+                tree3D.traverse(function(node){
+                    if (node.isMesh && node.material.name === "texture") {
+                      node.material.map =  new THREE.TextureLoader()
+                        .load("https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg");
+                      node.material.map.repeat.x = 1;
+                      node.material.map.center.x = 1;
+                      node.material.map.flipY = false;
+                      //node.material.color.set('#E7C695');
+                      node.material.roughness = 1
+                    }
+                    if (node.isMesh && node.material.name === "helmet") {
+                      node.material.color.set('#BEBEBE');
+                      // node.material.color.set('#F44336');
+                      node.material.roughness = 1
+                    }
+                    if (node.isMesh && node.material.name === "torso") {
+                      node.material.color.set('#FCD19C');
+                      node.material.roughness = 1
+                    }
+                });
+            });
+        }
+    });
+    
+    AFRAME.registerComponent('character-torso', {
+      init: function(){
+          let el = this.el;
+          el.addEventListener("model-loaded", e =>{
+              let tree3D = el.getObject3D('mesh');
+              if (!tree3D){return;}                   
+              tree3D.traverse(function(node){
+                  if (node.isMesh) {
+                      node.material.color.set('#E91E63');
+                      node.material.roughness = 1
+                  }
+              });
+          });
+      }
+    });
     </script>
   </body>
 </html>
