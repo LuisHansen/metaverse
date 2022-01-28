@@ -220,6 +220,15 @@
           if (this.nametag) this.nametag.setAttribute("value", this.data.name);
         },
       });
+      
+      AFRAME.registerComponent("room", {
+        init: function () {
+          this.el.addEventListener("model-loaded", e => {
+            this.room = this.el.querySelector(".roomModel");
+            console.log("room", this.room);
+          });
+        }
+      });
     </script>
   </head>
 
@@ -389,10 +398,13 @@
       <a-box dynamic-body position="0 10 -1" color="blue" width="2" height="2" depth="2"></a-box>
       <a-box static-body position="0 0 0" color="#4CAF50" width="10" height="0.2" depth="10"></a-box>
       <a-sphere dynamic-body position="1 15 0" mass="0.1" radius="0.4d"></a-sphere>
-      <a-gltf-model
-        rotation="0 0 0"
-        src="#room-model"
-      ></a-gltf-model>
+      <a-entity room class="room" position="5 5 5">
+        <a-gltf-model
+          class="roomModel"
+          rotation="0 0 0"
+          src="#room-model"
+        ></a-gltf-model>
+      </a-entity>
     </a-scene>
 
     <script>
