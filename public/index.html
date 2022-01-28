@@ -13,11 +13,18 @@
     <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r134/examples/js/deprecated/Geometry.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/super-hands@^3.0.1/dist/super-hands.min.js"></script>
     
+    <script src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.2/dist/aframe-controller-cursor-component.min.js"></script>
+    <script src="https://rawgit.com/dmarcos/aframe-motion-capture/master/dist/aframe-motion-capture.min.js"></script>
     
     <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
     <script src="https://unpkg.com/aframe-environment-component@1.2.0/dist/aframe-environment-component.min.js"></script>
     <script src="/js/spawn-in-circle.component.js"></script>
+    <script src="/js/aframe-physics-system.js"> </script>
+    <script src="/js/intersection-spawn.js"></script>
+    <script src="/js/snap.js"></script>
     
 
     <script>
@@ -49,17 +56,6 @@
               // NOTICE THAT WE SYNC PLAYER INFO! this is where color and username are stored
               "player-info",
             ],
-          });
-          if (!NAF.schemas.hasTemplate("#body-template")) {
-            NAF.schemas.add({
-              template: "#body-template",
-              components: [
-                // position and rotation are synced by default, but if we declare
-                // a custom schema, then ommitting them will cause them to go untracked.
-                "position",
-                "rotation",
-                "player-body-info",
-              ],
           });
         }
 
@@ -154,15 +150,6 @@
           });
         },
 
-        listUsers: function () {
-          console.log(
-            "userlist",
-            [...document.querySelectorAll("[player-info]")].map(
-              (el) => el.components["player-info"].data.name
-            )
-          );
-        },
-
         update: function () {
           if (this.torso)
             this.torso.setAttribute("material", "color", this.data.color);
@@ -198,36 +185,34 @@
         },
 
         init: function () {
-          console.log('outside', this);
           this.el.addEventListener("model-loaded", e => {
-            console.log('opa');
             this.head = this.el.querySelector(".headModel");
-            let tree3D = this.head.getObject3D('mesh');
-            if (!tree3D){
-              return;
+            this.torso = this.el.querySelector(".torsoModel");
+            let headTree3D = this.head.getObject3D('mesh');
+            if (headTree3D){
+              headTree3D.traverse(node => {
+                if (node.isMesh && node.material.name === "texture") {
+                  node.material.map =  new THREE.TextureLoader()
+                    .load(this.data.texture);
+                  node.material.map.repeat.x = 1;
+                  node.material.map.center.x = 1;
+                  node.material.map.flipY = false;
+                  //node.material.color.set('#E7C695');
+                  node.material.roughness = 1
+                }
+                if (node.isMesh && node.material.name === "helmet") {
+                  node.material.color.set('#FCD19C');
+                  // node.material.color.set('#F44336');
+                  node.material.roughness = 1
+                }
+                if (node.isMesh && node.material.name === "torso") {
+                  console.log('inside', this);
+                  node.material.color.set(this.data.color);
+                  node.material.roughness = 1
+                }
+              });
             }
-            console.log('mesh', tree3D);
-            tree3D.traverse(node => {
-              if (node.isMesh && node.material.name === "texture") {
-                node.material.map =  new THREE.TextureLoader()
-                  .load(this.data.texture);
-                node.material.map.repeat.x = 1;
-                node.material.map.center.x = 1;
-                node.material.map.flipY = false;
-                //node.material.color.set('#E7C695');
-                node.material.roughness = 1
-              }
-              if (node.isMesh && node.material.name === "helmet") {
-                node.material.color.set('#FCD19C');
-                // node.material.color.set('#F44336');
-                node.material.roughness = 1
-              }
-              if (node.isMesh && node.material.name === "torso") {
-                console.log('inside', this);
-                node.material.color.set(this.data.color);
-                node.material.roughness = 1
-              }
-            });
+            
           });
           
           this.nametag = this.el.querySelector(".nametag");
@@ -287,6 +272,14 @@
           id="torso-model"
           src="https://cdn.glitch.global/150333cf-97ea-49d4-af51-b1d8de1e43f7/base_avatar_torso.gltf?v=1643243481656"
         ></a-asset-item>
+        
+        <a-mixin id="postit"
+           geometry="primitive: box; height: 1; width: 1; depth: 0.1"
+           material="shader: standard"
+           random-color
+           snap="offset: 0.5 0.5 0.1; snap: 1.2 1.2 0.1"
+           networked="template:#post-it;attachTemplateToLocal:false;"
+        ></a-mixin>
 
         <!--
           NAF Templates
@@ -294,6 +287,13 @@
         <!-- Camera Rig / Player -->
         <template id="camera-rig-template">
           <a-entity></a-entity>
+        </template>
+        
+        <template id="post-it">
+          <a-entity
+            geometry="primitive: box; height: 1; width: 1; depth: 0.1" material="shader: standard" random-color snap="offset: 0.5 0.5 0.1; snap: 1.2 1.2 0.1"
+          >
+          </a-entity>
         </template>
 
         <!-- Head / Avatar -->
@@ -307,6 +307,14 @@
               rotation="0 180 0"
               src="#head-model"
             ></a-gltf-model>
+            
+            <a-gltf-model
+              class="torsoModel"
+              scale="0.2 0.2 0.2"
+              position="0 -0.5 0"
+              rotation="0 180 0"
+              src="#torso-model"
+            ></a-gltf-model>
 
             <a-text
               class="nametag"
@@ -315,18 +323,6 @@
               side="double"
               scale=".5 .5 .5"
             ></a-text>
-          </a-entity>
-        </template>
-        
-        <template id="body-template">
-          <a-entity class="avatar-body" player-body-info>
-            <a-gltf-model
-              class="torsoModel"
-              scale="0.2 0.2 0.2"
-              position="0 -0.5 0"
-              rotation="0 180 0"
-              src="#torso-model"
-            ></a-gltf-model>
           </a-entity>
         </template>
 
@@ -388,15 +384,6 @@
              active camera appended to it--both networked, we ensure all player movement is kept in sync.
         -->
         </a-entity>
-        
-        <a-entity
-          id="local-avatar-body"
-          camera
-          position="0 1.6 0"
-          look-controls
-          networked="template:#body-template;"
-          visible="false"
-        ></a-entity>
 
         <!-- Q: How about adding tracked hands here, like this below?
              A: if you add hands directly here, like this, it will work! But camera-rigs without any tracked controllers (e.g., non-vr desktop users and phone users)
@@ -408,6 +395,11 @@
         <a-entity hand-controls="hand:right" networked="template:#right-hand-template;attachTemplateToLocal:true;"></a-entity>
         -->
       </a-entity>
+      <a-camera>
+        <a-cursor
+          intersection-spawn="event: click; mixin: postit"
+        ></a-cursor>
+      </a-camera>
     </a-scene>
 
     <script>
@@ -435,6 +427,19 @@
       //   ]
       // });
 
+        
+      NAF.schemas.add({
+        template: '#post-it',
+        components: [
+          'position',
+          'rotation',
+          {
+            selector: '.head',
+            component: 'material',
+            property: 'color'
+          }
+        ]
+      })
       // Called by Networked-Aframe when connected to server
       function onConnect() {
         console.log("onConnect", new Date());
