@@ -12,9 +12,10 @@ AFRAME.registerComponent('intersection-spawn', {
   },
 
   init: function () {
+    
     const data = this.data;
     const el = this.el;
-
+    
     el.addEventListener(data.event, evt => {
       // Create element.
       const spawnEl = document.createElement('a-entity');

@@ -12,7 +12,7 @@
     <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.2.0/dist/components/sphere-collider.js"></script>
     <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r134/examples/js/deprecated/Geometry.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="aframe-extras.js"></script>
     <script src="https://unpkg.com/super-hands@^3.0.1/dist/super-hands.min.js"></script>
     
     <script src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
@@ -187,8 +187,9 @@
         init: function () {
           this.el.addEventListener("model-loaded", e => {
             this.head = this.el.querySelector(".headModel");
+            const headTree3D = this.head?.getObject3D('mesh');
             this.torso = this.el.querySelector(".torsoModel");
-            let headTree3D = this.head.getObject3D('mesh');
+            const torsoTree3D = this.head?.getObject3D('mesh');
             if (headTree3D){
               headTree3D.traverse(node => {
                 if (node.isMesh && node.material.name === "texture") {
@@ -212,7 +213,6 @@
                 }
               });
             }
-            
           });
           
           this.nametag = this.el.querySelector(".nametag");
@@ -365,6 +365,7 @@
       <a-entity
         id="camera-rig"
         tracked-vr-hands
+        kinematic-body
         movement-controls="fly:false;"
         spawn-in-circle="radius:3"
         networked="template:#camera-rig-template;"
@@ -377,6 +378,9 @@
           networked="template:#head-template;"
           visible="false"
         >
+          <a-cursor
+            intersection-spawn="event: click; mixin: postit"
+          ></a-cursor>
           <!-- Here we add the camera. Adding the camera within a 'rig' is standard practice.
              We set the camera to head height for e.g. computer users, but otherwise never touch it again; if the user enters VR,
              its rotation and position will be updated by the headset in VR. If we need to touch the user's position
@@ -395,11 +399,9 @@
         <a-entity hand-controls="hand:right" networked="template:#right-hand-template;attachTemplateToLocal:true;"></a-entity>
         -->
       </a-entity>
-      <a-camera>
-        <a-cursor
-          intersection-spawn="event: click; mixin: postit"
-        ></a-cursor>
-      </a-camera>
+      <a-box static-body position="0 0 -3" color="#4CC3D9" width="8" height="5" depth="0.5"></a-box>
+      <a-box dynamic-body position="0 10 -2" color="blue" width="1" height="1" depth="1"></a-box>
+      <a-box static-body position="0 0 0" color="#4CAF50" width="10" height="0.2" depth="10"></a-box>
     </a-scene>
 
     <script>
