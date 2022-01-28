@@ -23,7 +23,7 @@ AFRAME.registerComponent('intersection-spawn', {
       const spawnEl = document.createElement('a-entity');
       
       let normal = evt.detail.intersection.face.normal;
-      console.log(normal);
+      // console.log(normal);
       // Snap intersection point to grid and offset from center.
       spawnEl.setAttribute('position', evt.detail.intersection.point);
       spawnEl.setAttribute('rotation', `${normal.y*90} ${normal.x*90} 0`)
