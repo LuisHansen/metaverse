@@ -25,7 +25,8 @@ AFRAME.registerComponent('intersection-spawn', {
       console.log(normal);
       // Snap intersection point to grid and offset from center.
       spawnEl.setAttribute('position', evt.detail.intersection.point);
-
+      spawnEl.setAttribute('rotation', "-90 0 0")
+      
       // Set components and properties.
       Object.keys(data).forEach(name => {
         if (name === 'event') { return; }
