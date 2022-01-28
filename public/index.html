@@ -253,6 +253,10 @@
           id="torso-model"
           src="https://cdn.glitch.global/150333cf-97ea-49d4-af51-b1d8de1e43f7/base_avatar_torso.gltf?v=1643243481656"
         ></a-asset-item>
+        <a-asset-item
+          id="room-model"
+          src="https://cdn.glitch.global/efea197a-513b-4526-a9b1-85062ae7f6e0/meta_room.glb?v=1643343150725"
+        ></a-asset-item>
         
         <a-mixin id="postit"
            geometry="primitive: box; height: 0.5; width: 0.5; depth: 0.05"
@@ -385,6 +389,10 @@
       <a-box dynamic-body position="0 10 -1" color="blue" width="2" height="2" depth="2"></a-box>
       <a-box static-body position="0 0 0" color="#4CAF50" width="10" height="0.2" depth="10"></a-box>
       <a-sphere dynamic-body position="1 15 0" mass="0.1" radius="0.4d"></a-sphere>
+      <a-gltf-model
+        rotation="0 0 0"
+        src="#room-model"
+      ></a-gltf-model>
     </a-scene>
 
     <script>
