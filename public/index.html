@@ -8,6 +8,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
     <script src="/easyrtc/easyrtc.js"></script>
     <script src="/dist/networked-aframe.js"></script>
+    <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.2.0/dist/components/sphere-collider.js"></script>
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r134/examples/js/deprecated/Geometry.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    
+    
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.2.0/dist/aframe-environment-component.min.js"></script>
+    <script src="/js/spawn-in-circle.component.js"></script>
+    
 
     <script>
       // Note the way we're establishing the NAF schema here; this is a bit awkward
@@ -39,6 +50,17 @@
               "player-info",
             ],
           });
+          if (!NAF.schemas.hasTemplate("#body-template")) {
+            NAF.schemas.add({
+              template: "#body-template",
+              components: [
+                // position and rotation are synced by default, but if we declare
+                // a custom schema, then ommitting them will cause them to go untracked.
+                "position",
+                "rotation",
+                "player-body-info",
+              ],
+          });
         }
 
         // We could theoretically add this one in as well, but
@@ -63,11 +85,6 @@
         return components;
       };
     </script>
-
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
-    <script src="https://unpkg.com/aframe-environment-component@1.2.0/dist/aframe-environment-component.min.js"></script>
-    <script src="/js/spawn-in-circle.component.js"></script>
     <script>
       // always register components before your scene
       AFRAME.registerComponent("tracked-vr-hands", {
@@ -176,7 +193,7 @@
               "https://cdn.glitch.global/efea197a-513b-4526-a9b1-85062ae7f6e0/person3.jpg?v=1643333240022",
               "https://cdn.glitch.global/efea197a-513b-4526-a9b1-85062ae7f6e0/person2.jpg?v=1643333227609",
               "https://cdn.glitch.global/efea197a-513b-4526-a9b1-85062ae7f6e0/person1.jpg?v=1643333223347",
-            ][Math.floor(Math.random())],
+            ][Math.floor(Math.random()*5)],
           }
         },
 
@@ -193,7 +210,7 @@
             tree3D.traverse(node => {
               if (node.isMesh && node.material.name === "texture") {
                 node.material.map =  new THREE.TextureLoader()
-                  .load("https://static01.nyt.com/newsgraphics/2020/11/12/fake-people/4b806cf591a8a76adfc88d19e90c8c634345bf3d/fallbacks/mobile-05.jpg");
+                  .load(this.data.texture);
                 node.material.map.repeat.x = 1;
                 node.material.map.center.x = 1;
                 node.material.map.flipY = false;
@@ -293,9 +310,8 @@
 
             <a-text
               class="nametag"
-              value="?"
               rotation="0 180 0"
-              position=".25 -.35 0"
+              position=".25 .25 0"
               side="double"
               scale=".5 .5 .5"
             ></a-text>
