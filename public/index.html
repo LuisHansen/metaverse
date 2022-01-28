@@ -242,9 +242,10 @@
     <a-scene
       networked-scene="
         room: handcontrollers;
-        debug: false;"
+        debug: false;
+        audio: true;"
       physics="debug: true"
-      audio: true;
+      
     >
       <a-assets>
         <!-- models are from a-frame repo; see bottom of page for downloads:  https://aframe.io/docs/1.2.0/components/hand-controls.html -->
@@ -411,25 +412,11 @@
       </a-entity>
     </a-scene>
     
-    <div class="actions" style="position: absolute; display: flex; bottom: 5%; left: 3%;">
-      <button id="mic-btn" type="button" class="button" style="  cursor: pointer; background: #ffffff; height: 40px; width: 130px; border-radius: 30px; margin-right: 10px;">Mute Mic</button>
+    <div class="actions" style="position: absolute; display: flex; bottom: 7%; left: 3%;">
+      <button id="mic-btn" type="button" class="button" style="cursor: pointer; background: #ffffff; height: 40px; width: 130px; border-radius: 30px; margin-right: 10px;">Mute Mic</button>
     </div>
 <!--     <style> .mic-btn{position:absolute;cursor:pointer;bottom:3%;left:3%;background:#fff;height:40px;width:100px;border-radius:30px}
     </style> -->
-
-    <script>
-      // Mic status
-      let micEnabled = true;
-      // Mic button ele
-      const micBtnEle = document.getElementById('mic-btn');
-      // On mobile remove elements that are resource heavy
-      const isMobile = AFRAME.utils.device.isMobile();
-
-      if (isMobile) {
-        const particles = document.getElementById('particles');
-        particles.parentNode.removeChild(particles);
-      }
-    </script>
 
     <script>
       // old style sync schema declaration, can cause race condition glitch--use new style, shown at top of file
@@ -469,7 +456,13 @@
           }
         ]
       })
+      
+      // Mic status
+      let micEnabled = true;
+      // Mic button ele
+      const micBtnEle = document.getElementById('mic-btn');
       // Called by Networked-Aframe when connected to server
+      
       function onConnect() {
         console.log("onConnect", new Date());
         
