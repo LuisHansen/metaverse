@@ -8,7 +8,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
     <script src="/easyrtc/easyrtc.js"></script>
     <script src="/dist/networked-aframe.js"></script>
-    <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
     <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.2.0/dist/components/sphere-collider.js"></script>
     <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r134/examples/js/deprecated/Geometry.js"></script>
@@ -17,9 +16,8 @@
     
     <script src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
     <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.2/dist/aframe-controller-cursor-component.min.js"></script>
-    <script src="https://rawgit.com/dmarcos/aframe-motion-capture/master/dist/aframe-motion-capture.min.js"></script>
+<!--     <script src="https://rawgit.com/dmarcos/aframe-motion-capture/master/dist/aframe-motion-capture.min.js"></script> -->
     
-    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
     <script src="https://unpkg.com/aframe-environment-component@1.2.0/dist/aframe-environment-component.min.js"></script>
     <script src="/js/spawn-in-circle.component.js"></script>
     <script src="/js/aframe-physics-system.js"> </script>
@@ -232,10 +230,9 @@
       oninput="document.getElementById('local-avatar').setAttribute('player-info', 'name', this.value)"
     />
     <a-scene
-      stats
       networked-scene="
         room: handcontrollers;
-        debug: true;
+        debug: false;
     "
     >
       <a-assets>
@@ -385,7 +382,7 @@
         -->
       </a-entity>
       <a-box static-body position="0 0 -3" color="#4CC3D9" width="8" height="5" depth="0.5"></a-box>
-      <a-box dynamic-body position="0 10 -2" color="blue" width="1" height="1" depth="1"></a-box>
+      <a-box dynamic-body position="0 10 -1" color="blue" width="2" height="2" depth="2"></a-box>
       <a-box static-body position="0 0 0" color="#4CAF50" width="10" height="0.2" depth="10"></a-box>
     </a-scene>
 
