@@ -22,7 +22,8 @@
     <script src="/js/spawn-in-circle.component.js"></script>
     <script src="/js/aframe-physics-system.js"> </script>
     <script src="/js/intersection-spawn.js"></script>
-    <script src="/js/snap.js"></script>
+<!--     <script src="/js/snap.js"></script> -->
+    
     
 
     <script>
@@ -274,7 +275,6 @@
            geometry="primitive: box; height: 0.5; width: 0.5; depth: 0.05"
            material="shader: standard"
            random-color
-           snap="offset: 0.25 0.25 0.05; snap: 0.6 0.6 0.05"
            networked="template:#post-it;attachTemplateToLocal:false;"
         ></a-mixin>
 
@@ -288,7 +288,7 @@
         
         <template id="post-it">
           <a-entity
-            geometry="primitive: box; height: 0.5; width: 0.5; depth: 0.05" material="shader: standard" random-color snap="offset: 0.25 0.25 0.05; snap: 0.6 0.6 0.05"
+            geometry="primitive: box; height: 0.5; width: 0.5; depth: 0.05" material="shader: standard" random-color
           >
           </a-entity>
         </template>
