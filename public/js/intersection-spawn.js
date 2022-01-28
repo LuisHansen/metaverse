@@ -17,7 +17,7 @@ AFRAME.registerComponent('intersection-spawn', {
     const el = this.el;
     
     el.addEventListener(data.event, evt => {
-      if (evt.detail.intersection.distance > 5) { return;}
+      if (evt.detail.intersection.distance > 4) { return;}
 
       console.log(evt);
       // Create element.a
