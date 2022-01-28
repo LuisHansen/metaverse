@@ -17,6 +17,7 @@ AFRAME.registerComponent('intersection-spawn', {
     const el = this.el;
     
     el.addEventListener(data.event, evt => {
+      console.log(evt);
       // Create element.
       const spawnEl = document.createElement('a-entity');
 
