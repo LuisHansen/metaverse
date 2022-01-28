@@ -243,6 +243,7 @@
         room: handcontrollers;
         debug: false;
     "
+      physics="debug: true"
     >
       <a-assets>
         <!-- models are from a-frame repo; see bottom of page for downloads:  https://aframe.io/docs/1.2.0/components/hand-controls.html -->
@@ -264,7 +265,7 @@
         ></a-asset-item>
         <a-asset-item
           id="room-model"
-          src="https://cdn.glitch.global/efea197a-513b-4526-a9b1-85062ae7f6e0/meta_room.glb?v=1643343150725"
+          src="https://cdn.glitch.global/efea197a-513b-4526-a9b1-85062ae7f6e0/meta_room_uncompressed.glb?v=1643343977868"
         ></a-asset-item>
         
         <a-mixin id="postit"
@@ -396,9 +397,9 @@
       </a-entity>
       <a-box static-body position="0 0 -3" color="#4CC3D9" width="8" height="5" depth="0.5"></a-box>
       <a-box dynamic-body position="0 10 -1" color="blue" width="2" height="2" depth="2"></a-box>
-      <a-box static-body position="0 0 0" color="#4CAF50" width="10" height="0.2" depth="10"></a-box>
+      <a-box static-body position="12.723 0 -10.421" color="#4CAF50" width="10" height="0.2" depth="10" scale=></a-box>
       <a-sphere dynamic-body position="1 15 0" mass="0.1" radius="0.4d"></a-sphere>
-      <a-entity room class="room" position="5 5 5">
+      <a-entity room class="room" position="6.544 25.154 -34.877">
         <a-gltf-model
           class="roomModel"
           rotation="0 0 0"
