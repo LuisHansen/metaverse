@@ -18,7 +18,7 @@ AFRAME.registerComponent('intersection-spawn', {
     
     el.addEventListener(data.event, evt => {
       console.log(evt);
-      // Create element.
+      // Create element.a
       const spawnEl = document.createElement('a-entity');
 
       // Snap intersection point to grid and offset from center.
