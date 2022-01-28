@@ -449,6 +449,13 @@
       // Called by Networked-Aframe when connected to server
       function onConnect() {
         console.log("onConnect", new Date());
+        
+        // Handle mic button click (Mute and Unmute)
+        micBtnEle.addEventListener('click', function() {
+          NAF.connection.adapter.enableMicrophone(!micEnabled);
+          micEnabled = !micEnabled;
+          micBtnEle.textContent = micEnabled ? 'Mute Mic' : 'Unmute Mic';
+        });
       }
     </script>
   </body>
