@@ -118,43 +118,6 @@
           // could add as 'networked-hands' component within repo
         },
       });
-      
-      AFRAME.registerComponent("player-body-info", {
-        schema: {
-          color: {
-            type: "string",
-            default:
-              "#" +
-              new THREE.Color(
-                Math.random(),
-                Math.random(),
-                Math.random()
-              ).getHexString(),
-          },
-        },
-
-        init: function () {
-          this.el.addEventListener("model-loaded", e => {
-            this.torso = this.el.querySelector(".torsoModel");
-            let tree3D = this.torso.getObject3D('mesh');
-            if (!tree3D){
-              return;
-            }
-            console.log('mesh', tree3D);
-            tree3D.traverse(node => {
-              if (node.isMesh) {
-                node.material.color.set(this.data.color);
-                node.material.roughness = 1
-              }
-            });
-          });
-        },
-
-        update: function () {
-          if (this.torso)
-            this.torso.setAttribute("material", "color", this.data.color);
-        },
-      });
 
       AFRAME.registerComponent("player-info", {
         schema: {
@@ -181,7 +144,17 @@
               "https://cdn.glitch.global/efea197a-513b-4526-a9b1-85062ae7f6e0/person2.jpg?v=1643333227609",
               "https://cdn.glitch.global/efea197a-513b-4526-a9b1-85062ae7f6e0/person1.jpg?v=1643333223347",
             ][Math.floor(Math.random()*5)],
-          }
+          },
+          bodyColor: {
+            type: "string",
+            default:
+              "#" +
+              new THREE.Color(
+                Math.random(),
+                Math.random(),
+                Math.random()
+              ).getHexString(),
+          },
         },
 
         init: function () {
@@ -189,7 +162,8 @@
             this.head = this.el.querySelector(".headModel");
             const headTree3D = this.head?.getObject3D('mesh');
             this.torso = this.el.querySelector(".torsoModel");
-            const torsoTree3D = this.head?.getObject3D('mesh');
+            const torsoTree3D = this.torso?.getObject3D('mesh');
+            
             if (headTree3D){
               headTree3D.traverse(node => {
                 if (node.isMesh && node.material.name === "texture") {
@@ -207,8 +181,16 @@
                   node.material.roughness = 1
                 }
                 if (node.isMesh && node.material.name === "torso") {
-                  console.log('inside', this);
                   node.material.color.set(this.data.color);
+                  node.material.roughness = 1
+                }
+              });
+            }
+            
+            if (torsoTree3D){
+              torsoTree3D.traverse(node => {
+                if (node.isMesh) {
+                  node.material.color.set(this.data.bodyColor);
                   node.material.roughness = 1
                 }
               });
@@ -235,6 +217,8 @@
         update: function () {
           if (this.head)
             this.head.setAttribute("material", "color", this.data.color);
+          if (this.torso)
+            this.torso.setAttribute("material", "color", this.data.bodyColor);
           if (this.nametag) this.nametag.setAttribute("value", this.data.name);
         },
       });
