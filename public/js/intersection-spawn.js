@@ -17,6 +17,7 @@ AFRAME.registerComponent('intersection-spawn', {
     const el = this.el;
     
     el.addEventListener(data.event, evt => {
+      if (evt.intersection.distance > 3.5) { return;}
       console.log(evt);
       // Create element.a
       const spawnEl = document.createElement('a-entity');
@@ -25,7 +26,7 @@ AFRAME.registerComponent('intersection-spawn', {
       console.log(normal);
       // Snap intersection point to grid and offset from center.
       spawnEl.setAttribute('position', evt.detail.intersection.point);
-      spawnEl.setAttribute('rotation', "0 0 90")
+      spawnEl.setAttribute('rotation', `${normal.y*90} ${normal.x*90} 0`)
       
       // Set components and properties.
       Object.keys(data).forEach(name => {
