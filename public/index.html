@@ -255,10 +255,10 @@
         ></a-asset-item>
         
         <a-mixin id="postit"
-           geometry="primitive: box; height: 1; width: 1; depth: 0.1"
+           geometry="primitive: box; height: 0.5; width: 0.5; depth: 0.05"
            material="shader: standard"
            random-color
-           snap="offset: 0.5 0.5 0.1; snap: 1.2 1.2 0.1"
+           snap="offset: 0.25 0.25 0.05; snap: 0.6 0.6 0.05"
            networked="template:#post-it;attachTemplateToLocal:false;"
         ></a-mixin>
 
@@ -272,7 +272,7 @@
         
         <template id="post-it">
           <a-entity
-            geometry="primitive: box; height: 1; width: 1; depth: 0.1" material="shader: standard" random-color snap="offset: 0.5 0.5 0.1; snap: 1.2 1.2 0.1"
+            geometry="primitive: box; height: 0.5; width: 0.5; depth: 0.05" material="shader: standard" random-color snap="offset: 0.25 0.25 0.05; snap: 0.6 0.6 0.05"
           >
           </a-entity>
         </template>
@@ -333,7 +333,7 @@
       </a-assets>
 
       <a-entity environment="preset:starry; groundColor: #000000;"></a-entity>
-      <a-entity light="" position="0.491 3.632 0.000"></a-entity>
+      <a-entity light="" position="0.491 3.632 0.000" angle="60"></a-entity>
       <a-entity light="type:ambient; intensity:.5"></a-entity>
 
       <!--   Here we declare only the local user's avatar, which we then broadcast to other users     -->
@@ -384,6 +384,7 @@
       <a-box static-body position="0 0 -3" color="#4CC3D9" width="8" height="5" depth="0.5"></a-box>
       <a-box dynamic-body position="0 10 -1" color="blue" width="2" height="2" depth="2"></a-box>
       <a-box static-body position="0 0 0" color="#4CAF50" width="10" height="0.2" depth="10"></a-box>
+      <a-sphere dynamic-body position="1 15 0" mass="0.1" radius="0.4d"></a-sphere>
     </a-scene>
 
     <script>
